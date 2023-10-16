@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+	<title>Insert title here</title>
+</head>
+
+<body>
+	
+	<th:block th:replace="~{nav}" />
+	
+	
+	
+	<div class="text-center">
+		<h1 class="m-4">Pizze!!</h1>
+
+		<!-- ricerca per nome -->
+		<form>
+			<label for="search"></label>
+			<input type="text" name="search" th:value="${searchTitle}" placeholder="Cerca la tua pizza!" />
+			<input class="btn btn-primary" type="submit" value="Cerca" />
+		</form>
+
+		<!-- se non ci sono pizze -->
+		<h1 th:if="${pizze.size() < 1}">Pizze in manutenzione, riprova più tardi :(</h1>
+
+		<!-- se ci sono pizze nel db -->
+		<div class="d-flex justify-content-center my-3">
+			<ul class="list-unstyled list-group col-6" th:if="${pizze.size() > 0}">
+				<li class="list-group-item" th:each="pizza : ${pizze}" th:object="${pizza}">
+					<a th:href="@{/{id}(id=*{id})}">
+						[[*{name}]]
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<!-- tentativo di javascript, ero curioso se si poteva usare qui o se serviva un altro collegamento -->
+		<form action="/pizzas/{title}" method="GET">
+			<input type="text" name="title" placeholder="Cerca per parola chiave!">
+		</form>
+
+		<hr>
+
+		<a th:href="@{/create}" sec:authorize="hasAnyAuthority('ADMIN')" class="btn btn-success">Nuova Pizza</a>
+
+		<script>
+			function filterPizzas(word) {
+				// Ottiene le pizze dalla pagina
+				var pizzas = document.querySelectorAll(".list-unstyled > li");
+				// Per ogni pizza
+				for (var i = 0; i < pizzas.length; i++) {
+					// Se la parola è vuota, mostra tutte le pizze
+					if (word === "") {
+						pizzas[i].style.display = "block";
+					} else {
+						// Controlla se la pizza contiene la parola scritta
+						var pizzaName = pizzas[i].textContent;
+						if (pizzaName.toLowerCase().indexOf(word.toLowerCase()) === -1) {
+							// Se non la contiene, la nasconde
+							pizzas[i].style.display = "none";
+						} else {
+							// Se la contiene, la mostra
+							pizzas[i].style.display = "block";
+						}
+					}
+				}
+			}
+
+			// Avvia la funzione quando l'utente cambia la parola scritta nel form
+			document.querySelector("input[name='title']").addEventListener("keyup", function () {
+				var word = this.value;
+				filterPizzas(word);
+			});
+		</script>
+
+	</div>
+	
+	<th:block th:insert="~{login.html :: login}"></th:block>
+
+	<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

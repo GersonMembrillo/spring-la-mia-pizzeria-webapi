@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+	<title>Insert title here</title>
+</head>
+<body>
+	<th:block th:replace="~{nav}" />
+	
+	<div class="text-center">
+	<h1 class="m-4">Nuovo ingrediente</h1>
+	<form th:object="${ingrediente}"
+		method="POST"
+	>
+		<label class="form-label fs-5"for="name">Nome</label>
+		<input class="form-control" type="text" id="name" th:field="*{name}">
+		<div class="form-text">Aggiungi il nome dell'ingrediente</div>
+		<br />
+		<label class="form-label fs-5"for="description">Descrizione</label>
+		<input class="form-control" type="text" id="description" th:field="*{description}">
+		<div class="form-text">Aggiungi una piccola descrizione</div>
+		<br />
+		<input class="btn btn-success" type="submit" value="Aggiungi">
+	</form>
+	</div>
+	<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+<style>
+	.form-control {
+		width: 50%;
+		margin: 0 auto;
+	}
+</style>
+</html>

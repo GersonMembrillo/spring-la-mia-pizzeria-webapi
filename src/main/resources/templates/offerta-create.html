@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+	<title>Insert title here</title>
+</head>
+
+<body class="">
+	<th:block th:replace="~{nav}" />
+
+	<div class="text-center">
+	<h1 class="m-4" th:if="${offerta.id < 1}">[[${pizza.name}]]: Aggiungi Offerta</h1>
+	<h1 class="m-4" th:if="${offerta.id > 0}">[[${pizza.name}]]: Modifica Offerta</h1>
+	<form
+		th:object="${offerta}"
+		method="POST">
+		
+		<!-- se togli questa roba ti da errore... serve per indicare a quale pizza va l'offerta -->
+		<input type="text" name="id" th:field="*{id}" hidden >
+		<input type="text" name="pizza" th:field="*{pizza}" hidden >
+		
+		<label class="form-label fs-5" for="title">Nome</label>
+		<input class="form-control" type="text" name="title" th:field="*{title}" >
+		<div class="form-text">Aggiungi il nome dell'offerta</div>
+		<br />
+		<label class="form-label fs-5" for="startDate">Inizio</label>
+		<input class="form-control" type="date" name="startDate" th:field="*{htmlStartDate}" >
+		<div class="form-text">Aggiungi la data di partenza</div>
+		<br />
+		<label class="form-label fs-5" for="endDate">Fine</label>
+		<input class="form-control" type="date" name="endDate" th:field="*{htmlEndDate}" >
+		<div class="form-text">Aggiungi la data di scadenza</div>
+		<br />
+		<input type="submit" class="btn btn-success" th:value="${offerta.id < 1 ? 'Aggiungi' : 'Modifica'}" >
+	</form>
+	</div>
+	<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+<style>
+	.form-control {
+		width: 50%;
+		margin: 0 auto;
+	}
+</style>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+	<title>Insert title here</title>
+</head>
+
+<body th:object="${pizza}">
+
+	<th:block th:replace="~{nav}" />
+
+	<div class="d-flex justify-content-center my-4 text-center" style="margin:0 auto">
+
+		<div class="card col-6 ">
+			<img th:src="*{photo}" class="card-img-top img-fluid" width="300px" />
+
+			<div class="card-body">
+
+				<h5 class="card-title">[[*{name}]]</h5>
+				<p class="card-text">[[*{description}]]</p>
+				<hr>
+				<p class="mb-0 text-end">[[*{price}]] €</p>
+				<br>
+				<hr>
+				<div class="text-center">
+
+					<a class="btn btn-primary badge" th:href="@{edit/{id}(id=*{id})}" sec:authorize="hasAnyAuthority('ADMIN')">Modifica</a>
+					<form style="display: inline;" th:action="@{delete/{id}(id=*{id})}" sec:authorize="hasAnyAuthority('ADMIN')" method="POST">
+						<button type="submit" class="btn btn-danger badge">Elimina</button>
+					</form>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="text-center">
+
+		<h5>Ingredienti</h5>
+		<ul class="list-unstyled">
+			<li th:each="ingrediente : *{ingredienti}" th:object="${ingrediente}">
+				[[*{name}]] : <span class="fw-lighter">[[*{description}]]</span>
+
+			</li>
+		</ul>
+
+	</div>
+
+	<hr>
+
+	<div class="text-center">
+
+		<h5>Offerte</h5>
+		<a class="btn btn-success mb-3" th:href="@{/offerta/create/{id}(id=*{id})}" sec:authorize="hasAnyAuthority('ADMIN')">Aggiuni Offerta</a>
+		<ul class="list-unstyled">
+			<li th:each="so : *{offerts}" th:object="${so}" class="card card-body mb-2"
+				style="width: 350px; margin: 0 auto;">
+				[[*{title}]] <br />
+				[[*{startDate}]] ~ [[*{endDate}]]
+				<a class="badge btn btn-primary mt-2" th:href="@{/offerta/edit/{id}(id=*{id})}"
+					style="width: 100px; margin: 0 auto;" sec:authorize="hasAnyAuthority('ADMIN')">Modifica</a>
+			</li>
+		</ul>
+
+	</div>
+
+	<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

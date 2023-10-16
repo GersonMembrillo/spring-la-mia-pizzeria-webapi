@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+	<title>Insert title here</title>
+</head>
+<body>
+	<th:block th:replace="~{nav}" />
+	<div class="text-center">
+		
+	<h1 class="m-4">Ingredienti</h1>
+	
+	<ul class="list-unstyled">
+		<li
+			class="card card-body"
+			style="width: 50%; margin: 0 auto;"
+			th:each="ingrediente : ${ingredienti}"
+			th:object="${ingrediente}">
+			[[*{name}]]<span class="fw-lighter">[[*{description}]]</span>
+			<form
+				th:action="@{/ingredients/delete/{id}(id=*{id})}"
+				method="POST"
+				style="display: inline;">
+				<input class="btn btn-danger m-0 px-2 py-0 small" type="submit" value="Elimina" >			
+			</form>
+		</li>
+	</ul>
+	
+	<a class="btn btn-success" href="/ingredients/create">Aggiungi ingrediente</a>
+	
+	</div>
+	
+	<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

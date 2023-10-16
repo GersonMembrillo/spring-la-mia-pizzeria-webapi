@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+	<title>Insert title here</title>
+</head>
+
+<body>
+
+	<th:block th:replace="~{nav}" />
+
+	<div class="text-center">
+
+		<h1 class="m-4" th:if="${pizza.id < 1}">Aggiungi la tua pizza!</h1>
+		<h1 class="m-4" th:if="${pizza.id > 0}">Modifica la tua pizza!</h1>
+		<form th:object="${pizza}" method="POST">
+
+
+			<label for="name" class="form-label fs-5">Nome</label>
+			<input type="text" class="form-control" name="name" th:value="*{name}">
+			<div class="form-text">Aggiungi il nome della pizza</div>
+			<br />
+			<div th:if="${#fields.hasErrors('name')}">
+				<ul class="list-unstyled text-danger">
+					<li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+				</ul>
+				<br />
+			</div>
+			<label for="description" class="form-label fs-5">Descrizione</label>
+			<input type="text" name="description" class="form-control" th:value="*{description}">
+			<div class="form-text">Aggiungi la descrizione della pizza</div>
+			<br />
+			<div th:if="${#fields.hasErrors('description')}">
+				<ul class="list-unstyled text-danger">
+					<li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+				</ul>
+				<br />
+			</div>
+			<label for="photo" class="form-label fs-5">Foto</label>
+			<input type="text" class="form-control" name="photo" th:value="*{photo}">
+			<div class="form-text">Aggiungi un url con la foto della pizza</div>
+			<br />
+			<div th:if="${#fields.hasErrors('photo')}">
+				<ul class="list-unstyled text-danger">
+					<li th:each="err : ${#fields.errors('photo')}" th:text="${err}"></li>
+				</ul>
+				<br />
+			</div>
+			<label for="price" class="form-label fs-5">Prezzo</label>
+			<input type="number" class="form-control" name="price" th:value="*{price}">
+			<div class="form-text">Aggiungi il prezzo della pizza</div>
+			<br />
+			<div th:if="${#fields.hasErrors('price')}">
+				<ul class="list-unstyled text-danger">
+					<li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
+				</ul>
+				
+			</div>
+
+			<label for="ingredient" class="form-label fs-5">Ingredienti</label>
+			<div class="d-flex justify-content-between" style="width: 250px; margin: 0 auto;"
+				th:each="ingrediente : ${ingredienti}" th:object="${ingrediente}">
+				
+				<input type="checkbox" th:id="${'ingrediente-' + ingrediente.id}" th:value="*{id}"
+					th:field="${pizza.ingredienti}">
+				<label th:for="${'ingrediente-' + ingrediente.id}">[[*{name}]]: <span
+						class="fw-lighter">[[*{description}]]</span></label>
+						
+			</div>
+			
+			<input class="btn btn-success mt-3" type="submit" th:value="${pizza.id > 0 ? 'UPDATE' : 'CREATE'}" />
+		</form>
+
+	</div>
+
+	<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+<style>
+	.form-control {
+		width: 50%;
+		margin: 0 auto;
+	}
+</style>
+
+</html>

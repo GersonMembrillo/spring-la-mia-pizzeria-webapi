@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+
+	<title>login</title>
+</head>
+
+<body>
+	<div th:fragment="login">
+
+		<p class="text-center mt-3" sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
+			<span class="fw-lighter">Utente loggato:</span>
+			<span sec:authentication="name"></span>
+			<a href="/logout" class="btn btn-danger badge"><small>LOGOUT</small></a>
+		</p>
+
+		<p class="text-center mt-3" sec:authorize="!hasAnyAuthority('USER', 'ADMIN')">
+			<a href="/login">LOGIN</a>
+		</p>
+
+	</div>
+	<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>
