@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
-	<title>Insert title here</title>
+	<title>crea pizza</title>
 </head>
 
 <body>
@@ -71,7 +71,7 @@
 						
 			</div>
 			
-			<input class="btn btn-success mt-3" type="submit" th:value="${pizza.id > 0 ? 'UPDATE' : 'CREATE'}" />
+			<input class="btn btn-success mt-3" type="submit" th:value="${pizza.id > 0 ? 'Modifica' : 'Aggiungi'}" />
 		</form>
 
 	</div>

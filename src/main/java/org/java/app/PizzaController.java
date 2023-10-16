@@ -124,7 +124,7 @@ public class PizzaController {
 		
 		offertaServ.save(Offerta);
 		
-		return "redirect:/";
+		return "redirect:/" + pizza.getId();
 
 	}
 
@@ -161,7 +161,7 @@ public class PizzaController {
 		
 		offertaServ.save(offerta);
 		
-		return "redirect:/pizzas/" + pizza.getId();
+		return "redirect:/" + pizza.getId();
 	}
 	
 	private String storePizza(Pizza pizza, BindingResult bindingResult) {
