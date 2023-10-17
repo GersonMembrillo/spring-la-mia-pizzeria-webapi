@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
+import org.java.app.api.PizzaDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
@@ -38,10 +40,13 @@ public class Pizza {
     private double price;
     
     @OneToMany(mappedBy= "pizza")
+    @JsonBackReference
 	  private List<Offerta> offerte;
     
     @ManyToMany
+    @JsonBackReference
 	private List<Ingrediente> ingredienti;
+    
 
     public Pizza() { }
     public Pizza(String name, String description, String photo, double price, Ingrediente...ingredienti) {
@@ -50,6 +55,11 @@ public class Pizza {
         setPhoto(photo);
         setPrice(price);
         setIngredienti(Arrays.asList(ingredienti));
+    }
+    public Pizza(PizzaDTO pizzaDto) {
+
+		fillFromDto(pizzaDto);
+		
     }
 
     public int getId() {
@@ -128,9 +138,20 @@ public class Pizza {
 		
 		getIngredienti().remove(ingrediente);
 	}
+	
+	public void fillFromDto(PizzaDTO pizzaDto) {
+
+		setName(pizzaDto.getName());
+		setDescription(pizzaDto.getDescription());
+		setPrice(pizzaDto.getPrice());
+	}
 
     @Override
     public String toString() {
         return "[" + getId() + "] " + getName() + ": " + getPrice() + "\n" + getDescription() + "\n" + getPhoto();
     }
+	public Pizza get() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
